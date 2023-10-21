@@ -150,7 +150,7 @@ namespace ActivityGhosts
             if (opacity < 1) opacity = 1;
             if (opacity > 5) opacity = 5;
             opacity *= 51;
-            showDate = settings.GetValue("Main", "ShowDate", true);
+            showDate = settings.GetValue("Main", "ShowDate", false);
         }
 
         private void CreateMenu()
