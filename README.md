@@ -4,7 +4,7 @@ Basic activity ghosts mod for [GTBikeV](https://www.gtbikev.com/)
 
 Fork from the code made by https://github.com/oldnapalm/ActivityGhosts
 
-The oly Diffrent is I include Lady and Male for Ghost from previous activity
+The only Diffrent is I include Lady and Male for Ghost from previous activity
 
 ## Installation
 - Put `ActivityGhosts.dll` and `ActivityGhosts.ini` in the `Scripts` folder
