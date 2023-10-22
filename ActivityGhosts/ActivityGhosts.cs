@@ -230,7 +230,7 @@ namespace ActivityGhosts
                                                                   VehicleDrivingFlags.SwerveAroundAllVehicles |
                                                                   VehicleDrivingFlags.ForceStraightLine;
 
-        private readonly string[] availableBicycles = { "FIXTER", "TRIBIKE", "TRIBIKE2", "TRIBIKE3" };
+        private readonly string[] availableBicycles = { "BFIXTER", "DOGMAF12", "MADONE", "PROPEL", "SUPERSIX" };
 
         private readonly string[] availableCyclists = { "a_f_y_fitness_01", "a_m_y_roadcyc_01" };
 
