@@ -150,7 +150,7 @@ namespace ActivityGhosts
             if (opacity < 1) opacity = 1;
             if (opacity > 5) opacity = 5;
             opacity *= 51;
-            showDate = settings.GetValue("Main", "ShowDate", false);
+            showDate = settings.GetValue("Main", "ShowDate", true);
         }
 
         private void CreateMenu()
@@ -218,7 +218,6 @@ namespace ActivityGhosts
         private readonly Blip blip;
         private int index = 0;
         private bool finished = false;
-        private static string a_f_y_tourist_01;
         private readonly Animation animation = new Animation();
         private readonly Animation lastAnimation = new Animation();
 
@@ -322,15 +321,6 @@ namespace ActivityGhosts
                     SetAnimation(speed);
                     ped.Speed = speed;
                 }
-            }
-            else if (!finished)
-            {
-                finished = true;
-                ped.Task.ClearAll();
-                if (sport == Sport.Cycling && ped.IsInVehicle(vehicle))
-                    ped.Task.LeaveVehicle(vehicle, false);
-                blip.Name = "Ghost (finished)";
-                blip.Color = BlipColor.WhiteNotPure;
             }
             else index = 0;
         }
