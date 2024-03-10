@@ -231,9 +231,9 @@ namespace ActivityGhosts
 
         private readonly string[] availableBicycles = { "BMX", "CRUISER", "FIXTER", "SCORCHER", "TRIBIKE", "TRIBIKE2", "TRIBIKE3" };
 
-        private readonly string[] availableCyclists = { "a_f_y_fitness_01", "a_m_y_roadcyc_01" };
+        private readonly string[] availableCyclists = { "a_f_y_fitness_01", "a_m_y_surfer_01", "a_m_y_runner_01", "a_m_y_roadcyc_01", "a_m_y_runner_01", "a_f_y_runner_01", "a_f_y_fitness_02", "a_f_y_eastsa_01", "a_f_y_eastsa_02", "a_f_y_golfer_01", "a_f_y_tennis_01", "a_f_y_yoga_01" };
 
-        private readonly string[] availableRunners = { "a_m_y_runner_01", "a_f_y_runner_01" };
+        private readonly string[] availableRunners = { "a_m_y_runner_01", "a_m_y_surfer_01", "a_m_y_runner_01", "a_m_y_roadcyc_01", "a_f_y_runner_01", "a_f_y_fitness_01", "a_f_y_fitness_02", "a_f_y_eastsa_01", "a_f_y_eastsa_02", "a_f_y_golfer_01", "a_f_y_tennis_01", "a_f_y_yoga_01" };
 
         public Ghost(List<GeoPoint> pointList, Sport type, System.DateTime startTime)
         {
