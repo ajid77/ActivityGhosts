@@ -231,9 +231,35 @@ namespace ActivityGhosts
 
         private readonly string[] availableBicycles = { "BMX", "CRUISER", "FIXTER", "SCORCHER", "TRIBIKE", "TRIBIKE2", "TRIBIKE3" };
 
-        private readonly string[] availableCyclists = { "a_f_y_fitness_01", "a_m_y_surfer_01", "a_m_y_runner_01", "a_m_y_roadcyc_01", "a_m_y_runner_01", "a_f_y_runner_01", "a_f_y_fitness_02", "a_f_y_eastsa_01", "a_f_y_eastsa_02", "a_f_y_golfer_01", "a_f_y_tennis_01", "a_f_y_yoga_01" };
+        private readonly string[] availableCyclists = {
+            "a_f_y_fitness_01",    // Fitness Female 01
+            "a_m_y_surfer_01",     // Surfer Male 01
+            "a_m_y_runner_01",     // Runner Male 01
+            "a_m_y_roadcyc_01",    // Road Cyclist Male 01
+            "a_m_y_runner_01",     // Runner Male 01 (repeated)
+            "a_f_y_runner_01",     // Runner Female 01
+            "a_f_y_fitness_02",    // Fitness Female 02
+            "a_f_y_eastsa_01",     // East SA Female 01
+            "a_f_y_eastsa_02",     // East SA Female 02
+            "a_f_y_golfer_01",     // Golfer Female 01
+            "a_f_y_tennis_01",     // Tennis Female 01
+            "a_f_y_yoga_01"        // Yoga Female 01
+};
 
-        private readonly string[] availableRunners = { "a_m_y_runner_01", "a_m_y_surfer_01", "a_m_y_runner_01", "a_m_y_roadcyc_01", "a_f_y_runner_01", "a_f_y_fitness_01", "a_f_y_fitness_02", "a_f_y_eastsa_01", "a_f_y_eastsa_02", "a_f_y_golfer_01", "a_f_y_tennis_01", "a_f_y_yoga_01" };
+        private readonly string[] availableRunners = {
+            "a_m_y_runner_01",     // Runner Male 01
+            "a_m_y_surfer_01",     // Surfer Male 01
+            "a_m_y_runner_01",     // Runner Male 01 (repeated)
+            "a_m_y_roadcyc_01",    // Road Cyclist Male 01
+            "a_f_y_runner_01",     // Runner Female 01
+            "a_f_y_fitness_01",    // Fitness Female 01
+            "a_f_y_fitness_02",    // Fitness Female 02
+            "a_f_y_eastsa_01",     // East SA Female 01
+            "a_f_y_eastsa_02",     // East SA Female 02
+            "a_f_y_golfer_01",     // Golfer Female 01
+            "a_f_y_tennis_01",     // Tennis Female 01
+            "a_f_y_yoga_01"        // Yoga Female 01
+};
 
         public Ghost(List<GeoPoint> pointList, Sport type, System.DateTime startTime)
         {
