@@ -236,20 +236,40 @@ namespace ActivityGhosts
             "a_m_y_surfer_01",     // Surfer Male 01
             "a_m_y_runner_01",     // Runner Male 01
             "a_m_y_roadcyc_01",    // Road Cyclist Male 01
-            "a_m_y_runner_01",     // Runner Male 01 (repeated)
             "a_f_y_runner_01",     // Runner Female 01
             "a_f_y_fitness_02",    // Fitness Female 02
             "a_f_y_eastsa_01",     // East SA Female 01
             "a_f_y_eastsa_02",     // East SA Female 02
             "a_f_y_golfer_01",     // Golfer Female 01
             "a_f_y_tennis_01",     // Tennis Female 01
-            "a_f_y_yoga_01"        // Yoga Female 01
+            "a_f_y_yoga_01",       // Yoga Female 01
+            "a_m_m_afriamer_01",   // African American Male 01
+            "a_m_m_beach_01",      // Beach Male 01
+            "a_m_m_beach_02",      // Beach Male 02
+            "a_m_m_farmer_01",     // Farmer Male 01
+            "a_m_m_fatlatin_01",   // Fat Latin Male 01
+            "a_m_m_hillbilly_01",  // Hillbilly Male 01
+            "a_m_m_indian_01",     // Indian Male 01
+            "a_m_m_prolhost_01",   // Prologue Host Male 01
+            "a_m_m_salton_01",     // Salton Male 01
+            "a_m_m_socenlat_01",   // South Central Latino Male 01
+            "a_m_m_soucent_01",    // South Central Male 01
+            "a_m_m_trampbeac_01",  // Tramp Beach Male 01
+            "a_m_y_beachvesp_01",  // Beach Vespucci Male 01
+            "a_m_y_eastsa_02",     // East SA Male 02
+            "a_m_y_gay_01",        // Gay Male 01
+            "a_m_y_runner_02",     // Runner Male 02
+            "a_m_y_skater_01",     // Skater Male 01
+            "a_m_y_soucent_02",    // South Central Male 02
+            "a_m_y_vinewood_01",   // Vinewood Male 01
+            "a_m_y_vinewood_02",   // Vinewood Male 02
+            "a_m_y_vinewood_03",   // Vinewood Male 03
+            "a_m_y_vinewood_04"    // Vinewood Male 04
 };
 
         private readonly string[] availableRunners = {
             "a_m_y_runner_01",     // Runner Male 01
             "a_m_y_surfer_01",     // Surfer Male 01
-            "a_m_y_runner_01",     // Runner Male 01 (repeated)
             "a_m_y_roadcyc_01",    // Road Cyclist Male 01
             "a_f_y_runner_01",     // Runner Female 01
             "a_f_y_fitness_01",    // Fitness Female 01
@@ -258,7 +278,29 @@ namespace ActivityGhosts
             "a_f_y_eastsa_02",     // East SA Female 02
             "a_f_y_golfer_01",     // Golfer Female 01
             "a_f_y_tennis_01",     // Tennis Female 01
-            "a_f_y_yoga_01"        // Yoga Female 01
+            "a_f_y_yoga_01",       // Yoga Female 01
+            "a_m_m_afriamer_01",   // African American Male 01
+            "a_m_m_beach_01",      // Beach Male 01
+            "a_m_m_beach_02",      // Beach Male 02
+            "a_m_m_farmer_01",     // Farmer Male 01
+            "a_m_m_fatlatin_01",   // Fat Latin Male 01
+            "a_m_m_hillbilly_01",  // Hillbilly Male 01
+            "a_m_m_indian_01",     // Indian Male 01
+            "a_m_m_prolhost_01",   // Prologue Host Male 01
+            "a_m_m_salton_01",     // Salton Male 01
+            "a_m_m_socenlat_01",   // South Central Latino Male 01
+            "a_m_m_soucent_01",    // South Central Male 01
+            "a_m_m_trampbeac_01",  // Tramp Beach Male 01
+            "a_m_y_beachvesp_01",  // Beach Vespucci Male 01
+            "a_m_y_eastsa_02",     // East SA Male 02
+            "a_m_y_gay_01",        // Gay Male 01
+            "a_m_y_runner_02",     // Runner Male 02
+            "a_m_y_skater_01",     // Skater Male 01
+            "a_m_y_soucent_02",    // South Central Male 02
+            "a_m_y_vinewood_01",   // Vinewood Male 01
+            "a_m_y_vinewood_02",   // Vinewood Male 02
+            "a_m_y_vinewood_03",   // Vinewood Male 03
+            "a_m_y_vinewood_04"    // Vinewood Male 04
 };
 
         public Ghost(List<GeoPoint> pointList, Sport type, System.DateTime startTime)
