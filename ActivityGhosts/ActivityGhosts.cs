@@ -308,6 +308,7 @@ namespace ActivityGhosts
             points = pointList;
             sport = type;
             Random random = new Random();
+            index = random.Next(points.Count); // Set index to a random value within the range of points
             Vector3 start = GetPoint(index);
             if (sport == Sport.Cycling)
             {
