@@ -919,8 +919,7 @@ namespace ActivityGhosts
             "u_m_y_staggrm_01",
             "u_m_y_tattoo_01",
             "u_m_y_zombie_01",
-            "a_m_y_vinewood_04",
-};
+        };
 
         private readonly string[] availableRunners = {
             "a_f_m_beach_01",
@@ -1610,15 +1609,13 @@ namespace ActivityGhosts
             "u_m_y_staggrm_01",
             "u_m_y_tattoo_01",
             "u_m_y_zombie_01",
-            "a_m_y_vinewood_04",
-};
+        };
 
         public Ghost(List<GeoPoint> pointList, Sport type, System.DateTime startTime)
         {
             points = pointList;
             sport = type;
             Random random = new Random();
-            index = random.Next(points.Count); // Set index to a random value within the range of points
             Vector3 start = GetPoint(index);
             if (sport == Sport.Cycling)
             {
@@ -1701,7 +1698,15 @@ namespace ActivityGhosts
                     ped.Speed = speed;
                 }
             }
-            else index = 0;
+            else if (!finished)
+            {
+                finished = true;
+                ped.Task.ClearAll();
+                if (sport == Sport.Cycling && ped.IsInVehicle(vehicle))
+                    ped.Task.LeaveVehicle(vehicle, false);
+                blip.Name = "Ghost (finished)";
+                blip.Color = BlipColor.Red;
+            }
         }
 
         public void Regroup(PointF point)
