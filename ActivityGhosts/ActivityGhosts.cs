@@ -229,10 +229,10 @@ namespace ActivityGhosts
                                                                   VehicleDrivingFlags.SwerveAroundAllVehicles |
                                                                   VehicleDrivingFlags.ForceStraightLine;
 
-        private readonly string[] availableBicycles = { "BMX", "CRUISER", "FIXTER", "SCORCHER", "TRIBIKE", "TRIBIKE2", "TRIBIKE3" };
+        private readonly string[] availableBicycles = { "CRUISER", "FIXTER", "SCORCHER", "TRIBIKE", "TRIBIKE2", "TRIBIKE3" };
 
         private readonly string[] availableCyclists = {
-            "a_f_m_beach_01",
+                        "a_f_m_beach_01",
             "a_f_m_bevhills_01",
             "a_f_m_fatwhite",
             "a_f_m_soucent_01",
@@ -919,10 +919,10 @@ namespace ActivityGhosts
             "u_m_y_staggrm_01",
             "u_m_y_tattoo_01",
             "u_m_y_zombie_01",
-};
+        };
 
         private readonly string[] availableRunners = {
-            "a_f_m_beach_01",
+                    "a_f_m_beach_01",
             "a_f_m_bevhills_01",
             "a_f_m_fatwhite",
             "a_f_m_soucent_01",
@@ -1609,67 +1609,57 @@ namespace ActivityGhosts
             "u_m_y_staggrm_01",
             "u_m_y_tattoo_01",
             "u_m_y_zombie_01",
-};
+        };
 
         public Ghost(List<GeoPoint> pointList, Sport type, System.DateTime startTime)
         {
             points = pointList;
             sport = type;
             Random random = new Random();
-
-            // Select a random cyclist model
-            Model pModel;
+            Vector3 start = GetPoint(index);
             if (sport == Sport.Cycling)
             {
-                pModel = new Model(availableCyclists[random.Next(availableCyclists.Length)]);
+                Model vModel;
+                vModel = new Model(availableBicycles[random.Next(availableBicycles.Length)]);
+                vModel.Request();
+                if (vModel.IsInCdImage && vModel.IsValid)
+                {
+                    while (!vModel.IsLoaded)
+                        Script.Wait(10);
+                    vehicle = World.CreateVehicle(vModel, start);
+                    vModel.MarkAsNoLongerNeeded();
+                    vehicle.IsInvincible = true;
+                    vehicle.Opacity = ActivityGhosts.opacity;
+                    vehicle.Mods.CustomPrimaryColor = Color.FromArgb(random.Next(255), random.Next(255), random.Next(255));
+                }
             }
-            else
-            {
-                pModel = new Model(availableRunners[random.Next(availableRunners.Length)]);
-            }
-
-            // Request and create the ped (character) based on the selected model
+            Model pModel;
+            pModel = sport == Sport.Cycling ? new Model(availableCyclists[random.Next(availableCyclists.Length)]) :
+                new Model(availableRunners[random.Next(availableRunners.Length)]);
             pModel.Request();
             if (pModel.IsInCdImage && pModel.IsValid)
             {
                 while (!pModel.IsLoaded)
                     Script.Wait(10);
-                ped = World.CreatePed(pModel, GetPoint(0)); // Assuming GetPoint(0) gets the initial position
+                ped = World.CreatePed(pModel, start);
                 pModel.MarkAsNoLongerNeeded();
                 ped.IsInvincible = true;
                 ped.Opacity = ActivityGhosts.opacity;
-
-                // Handle specific logic for cyclists
                 if (sport == Sport.Cycling)
                 {
-                    Model vModel = new Model(availableBicycles[random.Next(availableBicycles.Length)]);
-                    vModel.Request();
-                    if (vModel.IsInCdImage && vModel.IsValid)
-                    {
-                        while (!vModel.IsLoaded)
-                            Script.Wait(10);
-                        vehicle = World.CreateVehicle(vModel, GetPoint(0));
-                        vModel.MarkAsNoLongerNeeded();
-                        vehicle.IsInvincible = true;
-                        vehicle.Opacity = ActivityGhosts.opacity;
-                        vehicle.Mods.CustomPrimaryColor = Color.FromArgb(random.Next(255), random.Next(255), random.Next(255));
-                        ped.SetIntoVehicle(vehicle, VehicleSeat.Driver);
-                        vehicle.Heading = GetHeading(0);
-                    }
+                    ped.SetIntoVehicle(vehicle, VehicleSeat.Driver);
+                    vehicle.Heading = GetHeading(index);
                 }
-                else // Handle specific logic for runners
-                {
-                    ped.Heading = GetHeading(0);
-                }
-
-                // Set up blip and date display
+                else
+                    ped.Heading = GetHeading(index);
                 blip = ped.AddBlip();
                 blip.Sprite = BlipSprite.Ghost;
                 blip.Name = "Ghost (active)";
                 blip.Color = BlipColor.WhiteNotPure;
-                date = new TextElement(TimeSince(startTime), new PointF(0, 0), 1f, Color.WhiteSmoke, GTA.UI.Font.ChaletLondon, Alignment.Center, false, true);
             }
+            date = new TextElement(TimeSince(startTime), new PointF(0, 0), 1f, Color.WhiteSmoke, GTA.UI.Font.ChaletLondon, Alignment.Center, false, true);
         }
+
         public void Update()
         {
             if (points.Count > index + 1)
