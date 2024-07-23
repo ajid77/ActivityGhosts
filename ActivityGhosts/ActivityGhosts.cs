@@ -229,7 +229,7 @@ namespace ActivityGhosts
                                                                   VehicleDrivingFlags.SwerveAroundAllVehicles |
                                                                   VehicleDrivingFlags.ForceStraightLine;
 
-        private readonly string[] availableBicycles = { "CRUISER", "FIXTER", "SCORCHER", "TRIBIKE", "TRIBIKE2", "TRIBIKE3" };
+        private readonly string[] availableBicycles = { "BMX", "CRUISER", "FIXTER", "SCORCHER", "TRIBIKE", "TRIBIKE2", "TRIBIKE3" };
 
         private readonly string[] availableCyclists = {
             "a_f_m_beach_01",
@@ -919,7 +919,6 @@ namespace ActivityGhosts
             "u_m_y_staggrm_01",
             "u_m_y_tattoo_01",
             "u_m_y_zombie_01",
-
 };
 
         private readonly string[] availableRunners = {
@@ -1610,7 +1609,6 @@ namespace ActivityGhosts
             "u_m_y_staggrm_01",
             "u_m_y_tattoo_01",
             "u_m_y_zombie_01",
-
 };
 
         public Ghost(List<GeoPoint> pointList, Sport type, System.DateTime startTime)
