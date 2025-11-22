@@ -40,6 +40,9 @@ namespace ActivityGhosts
             ghosts = new List<Ghost>();
             lastTime = Environment.TickCount;
             gtaFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rockstar Games", "GTA V");
+            // ensure ModSettings folder exists before creating DB
+            var modSettingsDir = Path.Combine(gtaFolder, "ModSettings");
+            Directory.CreateDirectory(modSettingsDir);
             db = new LiteDatabase(Path.Combine(gtaFolder, "ModSettings", "ActivityGhosts.db"));
             activityFiles = db.GetCollection<ActivityFile>();
             LoadSettings();
@@ -63,7 +66,8 @@ namespace ActivityGhosts
                     {
                         var pos = g.ped.Bones[Bone.IKHead].Position + new Vector3(0, 0, 0.5f) + g.ped.Velocity / Game.FPS;
                         Function.Call(Hash.SET_DRAW_ORIGIN, pos.X, pos.Y, pos.Z, 0);
-                        g.date.Scale = 0.4f - GameplayCamera.Position.DistanceTo(g.ped.Position) * 0.01f;
+                        // clamp scale to avoid negative or zero values
+                        g.date.Scale = Math.Max(0.1f, 0.4f - (float)(GameplayCamera.Position.DistanceTo(g.ped.Position) * 0.01f));
                         g.date.Draw();
                         Function.Call(Hash.CLEAR_DRAW_ORIGIN);
                     }
@@ -73,6 +77,8 @@ namespace ActivityGhosts
         {
             Tick -= OnTick;
             DeleteGhosts();
+            // dispose DB on abort
+            db?.Dispose();
         }
 
         private void DeleteGhosts()
@@ -139,7 +145,7 @@ namespace ActivityGhosts
 
         private void LoadSettings()
         {
-            CultureInfo.CurrentCulture = new CultureInfo("", false);
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             ScriptSettings settings = ScriptSettings.Load(@".\Scripts\ActivityGhosts.ini");
             menuKey = (Keys)Enum.Parse(typeof(Keys), settings.GetValue("Main", "MenuKey", "F8"), true);
             loadKey = (Keys)Enum.Parse(typeof(Keys), settings.GetValue("Main", "LoadKey", "G"), true);
@@ -232,7 +238,7 @@ namespace ActivityGhosts
         private readonly string[] availableBicycles = { "CRUISER", "FIXTER", "SCORCHER", "TRIBIKE", "TRIBIKE2", "TRIBIKE3" };
 
         private readonly string[] availableCyclists = {
-                        "a_f_m_beach_01",
+            "a_f_m_beach_01",
             "a_f_m_bevhills_01",
             "a_f_m_fatwhite",
             "a_f_m_soucent_01",
