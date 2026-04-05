@@ -455,8 +455,22 @@ namespace ActivityGhosts
         {
             points = pointList;
             sport = type;
+
+            if (points.Count == 0)
+            {
+                // Kalau tiada point, keluar
+            return;
+            }
             Random random = new Random();
-            Vector3 start = GetPoint(index);
+
+            // ================== BAHAGIAN BARU ==================
+            // Pilih titik rawak sebagai titik mula
+            int randomIndex = random.Next(0, points.Count);   // nombor rawak dari 0 hingga (jumlah point - 1)
+
+            index = randomIndex;   // tetapkan index supaya hantu mula dari situ
+            // ===================================================
+
+            Vector3 start = GetPoint(index);   // sekarang start adalah titik rawak
             if (sport == Sport.Cycling)
             {
                 Model vModel;
