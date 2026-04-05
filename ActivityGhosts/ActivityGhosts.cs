@@ -465,7 +465,7 @@ namespace ActivityGhosts
                 if (vModel.IsInCdImage && vModel.IsValid)
                 {
                     while (!vModel.IsLoaded)
-                        Script.Wait(10);
+                        Script.Wait(100000);
                     vehicle = World.CreateVehicle(vModel, start);
                     vModel.MarkAsNoLongerNeeded();
                     vehicle.IsInvincible = true;
