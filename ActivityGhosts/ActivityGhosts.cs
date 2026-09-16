@@ -134,7 +134,7 @@ namespace ActivityGhosts
                     deleteMenuItem.Enabled = true;
                 }
             }
-            GTA.UI.Notification.PostTicker($"~g~{ghosts.Count} ghost{(ghosts.Count > 1 ? "s" : "")} loaded!", true);
+            Notification.Show($"{ghosts.Count} ghosts loaded");
         }
 
         private void LoadSettings()
@@ -455,22 +455,8 @@ namespace ActivityGhosts
         {
             points = pointList;
             sport = type;
-
-            if (points.Count == 0)
-            {
-                // Kalau tiada point, keluar
-            return;
-            }
             Random random = new Random();
-
-            // ================== BAHAGIAN BARU ==================
-            // Pilih titik rawak sebagai titik mula
-            int randomIndex = random.Next(0, points.Count);   // nombor rawak dari 0 hingga (jumlah point - 1)
-
-            index = randomIndex;   // tetapkan index supaya hantu mula dari situ
-            // ===================================================
-
-            Vector3 start = GetPoint(index);   // sekarang start adalah titik rawak
+            Vector3 start = GetPoint(index);
             if (sport == Sport.Cycling)
             {
                 Model vModel;
@@ -479,7 +465,7 @@ namespace ActivityGhosts
                 if (vModel.IsInCdImage && vModel.IsValid)
                 {
                     while (!vModel.IsLoaded)
-                        Script.Wait(100000);
+                        Script.Wait(10);
                     vehicle = World.CreateVehicle(vModel, start);
                     vModel.MarkAsNoLongerNeeded();
                     vehicle.IsInvincible = true;
@@ -514,8 +500,6 @@ namespace ActivityGhosts
             date = new TextElement(TimeSince(startTime), new PointF(0, 0), 1f, Color.WhiteSmoke, GTA.UI.Font.ChaletLondon, Alignment.Center, false, true);
         }
 
-        // In Ghost.Update() and Ghost.Delete(), add null checks for ped, blip, and vehicle before using them.
-
         public void Update()
         {
             if (points.Count > index + 1)
@@ -523,7 +507,6 @@ namespace ActivityGhosts
                 float speed = points[index].Speed;
                 if (sport == Sport.Cycling)
                 {
-                    if (ped == null || vehicle == null) return; // Null check
                     if (!ped.IsInVehicle(vehicle))
                         ped.SetIntoVehicle(vehicle, VehicleSeat.Driver);
                     float distance = vehicle.Position.DistanceTo2D(GetPoint(index));
@@ -536,12 +519,11 @@ namespace ActivityGhosts
                         speed *= 1.1f;
                     index++;
                     ped.Task.ClearAll();
-                    ped.Task.DriveTo(vehicle, GetPoint(index), 0f, customDrivingStyle, speed);
+                    ped.Task.DriveTo(vehicle, GetPoint(index), 0f, speed, (DrivingStyle)customDrivingStyle);
                     vehicle.Speed = speed;
                 }
                 else
                 {
-                    if (ped == null) return; // Null check
                     float distance = ped.Position.DistanceTo2D(GetPoint(index));
                     if (distance > 10f)
                     {
@@ -551,15 +533,21 @@ namespace ActivityGhosts
                     else if (distance > 3f)
                         speed *= 1.1f;
                     index++;
-                    ped.Task.FollowNavMeshTo(GetPoint(index), PedMoveBlendRatio.Walk, -1, 0.25f);
+                    ped.Task.GoTo(GetPoint(index));
                     SetAnimation(speed);
                     ped.Speed = speed;
                 }
             }
-            else index = 0;
+            else if (!finished)
+            {
+                finished = true;
+                ped.Task.ClearAll();
+                if (sport == Sport.Cycling && ped.IsInVehicle(vehicle))
+                    ped.Task.LeaveVehicle(vehicle, false);
+                blip.Name = "Ghost (finished)";
+                blip.Color = BlipColor.Red;
+            }
         }
-
-        // Updated the obsolete method and parameter usage in the Regroup method of the Ghost class.
 
         public void Regroup(PointF point)
         {
@@ -579,15 +567,14 @@ namespace ActivityGhosts
                     vehicle.Position = GetPoint(index);
                     vehicle.Heading = GetHeading(index);
                     ped.Task.ClearAll();
-
-                    // Fixed the obsolete usage of DrivingStyle and TaskInvoker.DriveTo
-                    ped.Task.DriveTo(vehicle, GetPoint(index + 1), 0f, customDrivingStyle, points[index].Speed);
+                    ped.Task.DriveTo(vehicle, GetPoint(index + 1), 0f, points[index].Speed, (DrivingStyle)customDrivingStyle);
+                    vehicle.Speed = points[index].Speed;
                 }
                 else
                 {
                     ped.Position = GetPoint(index);
                     ped.Heading = GetHeading(index);
-                    ped.Task.FollowNavMeshTo(GetPoint(index + 1), PedMoveBlendRatio.Walk, -1, 0.25f);
+                    ped.Task.GoTo(GetPoint(index + 1));
                     SetAnimation(points[index].Speed);
                     ped.Speed = points[index].Speed;
                 }
@@ -602,10 +589,7 @@ namespace ActivityGhosts
 
         private Vector3 GetPoint(int i)
         {
-            float groundHeight;
-            Vector3 position = new Vector3(points[i].Lat, points[i].Long, 0);
-            World.GetGroundHeight(position, out groundHeight);
-            return new Vector3(points[i].Lat, points[i].Long, groundHeight);
+            return new Vector3(points[i].Lat, points[i].Long, World.GetGroundHeight(new Vector2(points[i].Lat, points[i].Long)));
         }
 
         private float GetHeading(int i)
@@ -615,9 +599,9 @@ namespace ActivityGhosts
 
         public void Delete()
         {
-            if (blip != null) blip.Delete();
-            if (ped != null) ped.Delete();
-            if (vehicle != null) vehicle.Delete();
+            blip.Delete();
+            ped.Delete();
+            vehicle?.Delete();
             points.Clear();
         }
 
@@ -663,7 +647,7 @@ namespace ActivityGhosts
             if (animation.name != lastAnimation.name || ped.Speed == 0)
             {
                 if (!lastAnimation.IsEmpty())
-                    ped.Task.StopScriptedAnimationTask(new CrClipAsset(lastAnimation.dictionary, lastAnimation.name));
+                    ped.Task.ClearAnimation(lastAnimation.dictionary, lastAnimation.name);
                 ped.Task.PlayAnimation(animation.dictionary, animation.name, 8.0f, -8.0f, -1,
                     AnimationFlags.Loop | AnimationFlags.Secondary, animation.speed);
                 lastAnimation.dictionary = animation.dictionary;
